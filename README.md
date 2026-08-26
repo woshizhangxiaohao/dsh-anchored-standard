@@ -454,6 +454,18 @@ npm test
 - The preset has the same trust level as shell access. Review its files before
   installation.
 - The plugin performs no network requests and adds no telemetry.
+- The Minimal persona is intentionally bare (`You are a helpful software
+  engineer assistant.`, `complete: true`) — the byte-pure condition the anchor
+  was measured under. A side effect: the model has no identity anchor and may
+  fall back to training priors on identity questions (observed:
+  `deepseek-v4-pro` answering "I am Claude" when asked who it is; see
+  [#81](https://github.com/xiaobright/dsh-anchored-standard/issues/81)). To pin
+  identity without touching the tool schema, append the official identity line
+  to the persona `text:` —
+  `You are a helpful software engineer assistant. You are an AI agent powered by DeepSeek Harness.`
+  — then recreate the session. This deviates from the measured condition, so
+  verify your own first-round trajectory if exact anchoring matters (see
+  [#49](https://github.com/xiaobright/dsh-anchored-standard/issues/49)).
 
 ### Troubleshooting: a duplicate `instruction-hint` after a host restart
 
