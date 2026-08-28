@@ -376,6 +376,15 @@ npm test
   连续性在这些点上断开；
 - preset 与 shell 访问具有相同信任等级，安装前应自行审阅文件；
 - 插件不会发起网络请求，也不增加遥测。
+- Minimal persona 有意保持极简（`You are a helpful software engineer assistant.`，
+  `complete: true`）——锚定所测量的逐字节纯净条件。副作用：模型没有身份锚定，在
+  身份类问题上可能回落到训练先验（实测 `deepseek-v4-pro` 被问"你是谁？"时自称
+  "I am Claude"；见
+  [#81](https://github.com/xiaobright/dsh-anchored-standard/issues/81)）。
+  如需固定身份而不改动工具 schema，在 persona 的 `text:` 后追加官方身份句——
+  `You are a helpful software engineer assistant. You are an AI agent powered by DeepSeek Harness.`
+  ——并重建会话。这会偏离被测条件，若在意精确锚定请自行验证首轮轨迹（参见
+  [#49](https://github.com/xiaobright/dsh-anchored-standard/issues/49)）。
 
 ### 排障：主机重启后重复注入的 `instruction-hint`
 
